@@ -1,0 +1,55 @@
+{% extends "layout.njk" %}
+
+{% block head %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <title>Gym Manager</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="card-index table-container">
+    <div class="new-person">
+        <a href="/members/create"><i class="material-icons add-button">add_box</i></a> 
+        <a href="/members/create">Novo membro</a>
+        <form action="/members" method="GET">
+            <input type="text" name="filter" placeholder="Nome ou Email" value={{filter}}>
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th>Membro</th>
+                <th>Email</th>
+                <th>Peso</th>
+                <th>Altura</th>
+                <th>Visualizar</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td>
+                <span style="background-image: url({{ member.avatar_url }})"></span>
+                {{ member.name }}
+                </td>
+                <td>{{ member.email }}</td>
+                <td>{{ member.weight }}kg</td>
+                <td>{{ member.height }}cm</td>
+                <td><a href="/members/{{ member.id}}"><i class="material-icons">visibility</i></a></td>
+                <td><a href="/members/{{ member.id}}/edit"><i class="material-icons">create</i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination" 
+    data-page={{pagination.page}} 
+    data-total={{pagination.total}} 
+    data-filter={{filter}}>
+
+    </div>
+</div>
+
+{% endblock content %}

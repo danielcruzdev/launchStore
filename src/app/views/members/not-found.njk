@@ -1,0 +1,16 @@
+{% extends 'layout.njk' %}
+
+{% block content %}
+
+<form class="card" method="POST" action="/instructors">
+  <section class="avatar" style="background: url(https://source.unsplash.com/collection/6800490/600x600) no-repeat center center / cover"></section>
+  <section class="details">
+  
+    <h3 class='instructor-not-found'>Instrutor não encontrado</h3>
+
+    <a href="/instructors" class="button">Voltar</a>
+    
+  </section>
+</form>
+
+{% endblock content %}
