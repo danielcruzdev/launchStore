@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block head %}
-        <title>Gym Manager</title>
+    <title>Launchstore</title>
     {% endblock %}
-    <link rel="stylesheet" type="text/css" href="/styles.css">
-        
-</head>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+  </head>
 
-<body>
-    <header>
-        <div class="links">
-            <a href="/instructors">Instrutores</a>
-            <a href="/members">Membros</a>
-        </div>
-    </header>
+  <body>
+  
+    {% include "parts/header.njk" %}
 
     {% block content %} {%endblock%}
 
-    <script src="/scripts.js"></script>
-</body>
-
+    {% include "parts/footer.njk" %}
+    
+  </body>
 </html>
+
+
