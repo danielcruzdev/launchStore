@@ -21,7 +21,7 @@ const fileFilter = (req, file, callback) => {
     return callback(null, false);
 }
 
-module.exports = ({
+module.exports = multer ({
     storage,
     fileFilter
 
