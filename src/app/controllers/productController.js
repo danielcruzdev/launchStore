@@ -3,8 +3,6 @@ const Product = require("../models/Product");
 const File = require("../models/File")
 const { formatPrice } = require("../../lib/utils")
 
-
-
 module.exports = {
   create(request, response) {
     Category.all()
@@ -75,6 +73,14 @@ module.exports = {
       if (request.body[key] == "" && key != "removed_files") {
         return response.send("Por favor preencha todos os campos!");
       }
+    }
+
+    if(request.files.length != 0) {
+      const newFilesPromise = request.files.map(file => {
+        File.create({...file, product_id: request.body.id})
+      })
+
+      await Promise.all(newFilesPromise)
     }
 
     if (request.body.removed_files) {
