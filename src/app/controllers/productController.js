@@ -1,7 +1,7 @@
 const Category = require("../models/Category");
 const Product = require("../models/Product");
 const File = require("../models/File")
-const { formatPrice } = require("../../lib/utils")
+const { formatPrice, date } = require("../../lib/utils")
 
 module.exports = {
   create(request, response) {
@@ -33,8 +33,37 @@ module.exports = {
     const filesPromise = request.files.map(file => File.create({...file, product_id: productId}))
     await Promise.all(filesPromise)
 
-    return response.redirect(`/products/${productId}/edit`)
+    return response.redirect(`/products/${productId}`)
 
+  },
+  async show (request, response) {
+
+    let results = await Product.find(request.params.id)
+    const product = results.rows[0]
+
+    if(!product){
+      return response.send("Produto não encontrado!")
+    }
+
+    const { day, hour, minutes, month } = date(product.updated_at)
+
+    product.published = {
+      day: `${day}/${month}`,
+      hour: `${hour}h${minutes}`,
+    }
+
+    product.oldPrice = formatPrice(product.old_price)
+    product.price = formatPrice(product.price)
+
+    results = await Product.files(product.id)
+    let files = results.rows
+  
+    files = files.map(file => ({
+      ...file,
+      src: `${request.protocol}://${request.headers.host}${file.path.replace("public", "")}`
+    }))
+
+    return response.render("products/show", { product, files })
   },
   async edit(request, response) {
     try {
@@ -104,7 +133,7 @@ module.exports = {
 
     await Product.update(request.body)
 
-    return response.redirect(`/products/${request.body.id}/edit`)
+    return response.redirect(`/products/${request.body.id}`)
   },
   async delete(request, response) {
     await Product.delete(request.body.id)
