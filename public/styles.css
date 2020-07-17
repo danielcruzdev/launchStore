@@ -434,3 +434,26 @@ form .item #photos-preview img {
   justify-content: center;
   transition: 400ms;
 }
+
+/* SHOP */
+
+.shop h2 {
+  margin: 48px 0;
+}
+
+.shop .items {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 32px;
+}
+
+.shop .product {
+  display: grid;
+}
+
+.shop .product .image {
+  padding-top: 56.25%;
+  background-size:  contain;
+  background-position:  center center;
+  background-repeat: no-repeat;
+}
