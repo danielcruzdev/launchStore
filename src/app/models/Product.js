@@ -77,5 +77,11 @@ module.exports = {
       FROM files 
       WHERE product_id = $1
     `, [id])
+  },
+  all(){
+    return db.query(`
+      SELECT * FROM products 
+      ORDER BY updated_at DESC
+    `)
   }
 };
