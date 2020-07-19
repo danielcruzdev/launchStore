@@ -4,7 +4,7 @@ module.exports = {
   create(data) {
     const query = `
           INSERT INTO products (
-            category_id,
+            categories_id,
             user_id,
             name,
             description,
@@ -19,7 +19,7 @@ module.exports = {
     data.price = data.price.replace(/\D/g, "");
 
     const values = [
-        data.category_id,
+        data.categories_id,
         data.user_id || 1,
         data.name,
         data.description,
@@ -83,5 +83,35 @@ module.exports = {
       SELECT * FROM products 
       ORDER BY updated_at DESC
     `)
+  },
+  search(params){
+    const { filter, category } = params
+
+    let query = ``,
+        filterQuery = `WHERE`;
+
+    if (category) {
+      filterQuery = `
+        ${filterQuery}
+        products.category_id = ${category}
+        AND
+      `
+    }
+
+    filterQuery = `
+      ${filterQuery}
+      products.name ILIKE '%${filter}%'
+      OR products.description ILIKE '%${filter}%'
+    `
+
+    query = `
+      SELECT products.*,
+        categories.name AS category_name
+      FROM products
+      LEFT JOIN categories ON (categories.id = products.category_id)
+      ${filterQuery}
+    `
+
+    return db.query(query)
   }
 };
