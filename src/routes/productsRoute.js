@@ -1,15 +1,8 @@
 const express = require('express');
 const routes = express.Router();
-const multer = require('./app/middlewares/multer')
-const productController = require('./app/controllers/productController');
-const homeController = require('./app/controllers/homeController');
-const searchController = require('./app/controllers/searchController');
+const multer = require('../app/middlewares/multer')
+const productController = require('../app/controllers/productController');
 
-//Home
-routes.get('/', homeController.index);
-
-//Search
-routes.get("/products/search", searchController.index)
 
 //Products
 routes.get('/products/create', productController.create);
@@ -20,11 +13,11 @@ routes.post('/products', multer.array("photos", 6), productController.post);
 routes.put('/products', multer.array("photos", 6), productController.put);
 routes.delete('/products', productController.delete);
 
-
 // ALIAS
 routes.get('/ads/create', (req, res) => {
     return res.redirect('/products/create')
 });
+
 
 
 module.exports = routes;
