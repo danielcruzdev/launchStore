@@ -1,28 +1,29 @@
 const express = require('express');
 const routes = express.Router();
-const sessionController = require('./app/controllers/sessionController');
+const SessionController = require('../app/controllers/SessionController');
+const UserController = require("../app/controllers/UserController")
 
 
 //Login
-routes.get("/login", sessionController.loginForm)
-routes.post("/login", sessionController.login)
+// routes.get("/login", SessionController.loginForm)
+// routes.post("/login", SessionController.login)
 
-//Logout
-routes.post("/logout", sessionController.logout)
+// //Logout
+// routes.post("/logout", SessionController.logout)
 
-//Reset Password
-routes.get("/forgot-password", sessionController.forgotForm)
-routes.get("/password-reset", sessionController.resetForm)
-routes.post("/forgot-password", sessionController.forgot)
-routes.post("/password-reset", sessionController.reset)
+// //Reset Password
+// routes.get("/forgot-password", SessionController.forgotForm)
+// routes.get("/password-reset", SessionController.resetForm)
+// routes.post("/forgot-password", SessionController.forgot)
+// routes.post("/password-reset", SessionController.reset)
 
-//User register
-routes.get("/register", userController.registerForm)
-routes.post("/register", userController.register)
+// //User register
+routes.get("/register", UserController.registerForm)
+// routes.post("/register", UserController.register)
 
-routes.post("/", userController.show)
-routes.put("/", userController.update)
-routes.delete("/", userController.delete)
+// routes.post("/", UserController.show)
+// routes.put("/", UserController.update)
+// routes.delete("/", UserController.delete)
 
 
 module.exports = routes;

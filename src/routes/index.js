@@ -1,10 +1,10 @@
 const express = require('express');
 const routes = express.Router();
 
-const users = require("./usersRoute");
-const home = require("./homeRoute");
-const search = require("./searchRoute");
-const product = require("./productsRoute");
+const users = require("./UsersRoute");
+const home = require("./HomeRoute");
+const search = require("./SearchRoute");
+const product = require("./ProductsRoute");
 
 routes.use("/users", users)
 routes.use(home)
