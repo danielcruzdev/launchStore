@@ -1,39 +1,39 @@
 CREATE TABLE "products" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INT PRIMARY KEY,
   "category_id" int NOT NULL,
   "user_id" int,
-  "name" text,
-  "description" text,
+  "name" varchar(max),
+  "description" varchar(max),
   "old_price" int,
   "price" int,
   "quantity" int,
   "status" int,
-  "created_at" timestamp DEFAULT 'now()',
-  "updated_at" timestamp DEFAULT 'now()'
+  "created_at" datetime2 DEFAULT 'now()',
+  "updated_at" datetime2 DEFAULT 'now()'
 );
 
 CREATE TABLE "categories" (
-  "id" SERIAL PRIMARY KEY,
-  "name" text
+  "id" INT PRIMARY KEY,
+  "name" varchar(max)
 );
 
 CREATE TABLE "files" (
-  "id" SERIAL PRIMARY KEY,
-  "name" text,
-  "path" text,
+  "id" INT PRIMARY KEY,
+  "name" varchar(max),
+  "path" varchar(max),
   "product_id" int
 );
 
 CREATE TABLE "users" (
-  "id" SERIAL PRIMARY KEY,
-  "name" text NOT NULL,
-  "email" text UNIQUE NOT NULL,
-  "password" text NOT NULL,
-  "cpg_cnpj" text UNIQUE NOT NULL,
-  "cep" text,
-  "address" text,
-  "created_at" timestamp DEFAULT 'now()',
-  "updated_at" timestamp DEFAULT 'now()'
+  "id" INT PRIMARY KEY,
+  "name" varchar(max) NOT NULL,
+  "email" varchar(max) UNIQUE NOT NULL,
+  "password" varchar(max) NOT NULL,
+  "cpg_cnpj" varchar(max) UNIQUE NOT NULL,
+  "cep" varchar(max),
+  "address" varchar(max),
+  "created_at" datetime2 DEFAULT 'now()',
+  "updated_at" datetime2 DEFAULT 'now()'
 );
 -- Foreign KEYS
 
@@ -45,21 +45,24 @@ ALTER TABLE "files" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
 --CREATE PROCEDURE 
 CREATE FUNCTION trigger_set_timestamp()
-RETURN TRIGGER AS $$
+RETURNS TRIGGER AS
+ BEGIN DECLARE @$$
 	BEGIN
-  	NEW.updated.at = NOW()
+  	SET @NEW.updated.at = GETDATE()
+RETURN NULL;
+END;
     RETURN NEW;
   END;
 $$ LANGUAGE plpgsql
 
 --CREATE TRIGGERS -- AUTO UPDATE PRODUCTS
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON products
-FOR EACH ROW
+CREATE TRIGGER set_timestamp ON products
+INSTEAD OF UPDATE
+  AS
 EXECUTE PROCEDURE trigger_set_timestamp();
 
 --CREATE TRIGGERS -- AUTO UPDATE USERS
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON users
-FOR EACH ROW
+CREATE TRIGGER set_timestamp ON users
+INSTEAD OF UPDATE
+  AS
 EXECUTE PROCEDURE trigger_set_timestamp();
