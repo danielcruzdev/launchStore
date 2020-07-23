@@ -12,6 +12,40 @@ const Mask = {
       currency: "BRL",
     }).format(value / 100));
   },
+  cpfCnpj(value){
+    value = value.replace(/\D/g, "");
+
+    if(value.length > 11 && value.length <= 14 ){
+      value = value.replace(/(\d{2})(\d)/, "$1.$2"); // 00.000000000100
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // 00.000.000000100
+      value = value.replace(/(\d{3})(\d)/, "$1/$2"); // 00.000.000/000100
+      value = value.replace(/(\d{4})(\d)/, "$1-$2"); // 00.000.000/0001-00
+
+      return value;
+    } else if(value.length <= 11) {
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // 000.00000000
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // 000.000.00000
+      value = value.replace(/(\d{3})(\d)/, "$1-$2"); // 000.000.000-00
+
+      return value
+    }
+    else if (value.length > 14){
+      value = value.slice(0, -1)
+      return value
+    }
+  },
+  cep(value){
+    value = value.replace(/\D/g, "");
+
+    if(value.length <= 8 ){
+      value = value.replace(/(\d{5})(\d)/, "$1-$2"); // 00.000-000;
+
+      return value;
+    } else if (value.length > 8){
+      value = value.slice(0, -1)
+      return value
+    }
+  }
 };
 
 const PhotosUpload = {
@@ -155,3 +189,72 @@ const Lightbox = {
     Lightbox.closeButton.style.top = "-80px"
   }
 }
+
+const Validate = {
+  apply(input, func) {
+    Validate.clearErrors(input)
+
+    let results = Validate[func](input.value);
+    input.value = results.value
+
+    if(results.error) {
+      Validate.displayError(input, results.error);
+    }
+  },
+  displayError(input, error){
+    const div = document.createElement('div')
+    div.classList.add("error")
+    div.innerHTML = error
+    input.parentNode.appendChild(div)
+    input.focus();
+  },
+  clearErrors(input){
+    const errorDiv = input.parentNode.querySelector(".error")
+    if(errorDiv){
+      errorDiv.remove();
+    }
+  },
+  isEmail(value){
+    let error = null
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+    if(!value.match(mailFormat)){
+      error = "E-mail inválido!"
+    }
+
+    return {
+      error,
+      value
+    }
+  },
+  isCpfCnpj(value){
+    let error = null
+
+    const cleanValues = value.replace(/\D/g, "")
+
+    if(cleanValues.length > 11 && cleanValues.length !== 14){
+      error = "CNPJ Inválido"
+    }
+    else if (cleanValues.length < 12 && cleanValues.length !== 11){
+      error = "CPF Inválido"
+    }
+
+    return {
+      error,
+      value
+    }
+  },
+  isCep(value){
+    let error = null
+    const cleanValues = value.replace(/\D/g, "")
+
+    if(cleanValues.length !== 8){
+      error = "CEP Inválido!"
+    }
+
+    return {
+      error,
+      value
+    }
+  }
+};
