@@ -2,6 +2,7 @@ const express = require('express');
 const routes = express.Router();
 const SessionController = require('../app/controllers/SessionController');
 const UserController = require("../app/controllers/UserController")
+const Validator = require("../app/validators/user")
 
 
 //Login
@@ -19,7 +20,7 @@ const UserController = require("../app/controllers/UserController")
 
 // //User register
 routes.get("/register", UserController.registerForm)
-// routes.post("/register", UserController.register)
+routes.post("/register", Validator.post, UserController.register)
 
 // routes.post("/", UserController.show)
 // routes.put("/", UserController.update)
