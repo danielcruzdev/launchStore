@@ -6,7 +6,10 @@ async function post(req, res, next) {
     const keys = Object.keys(req.body);
     for (key of keys) {
         if (req.body[key] == "") {
-            return res.send("Por favor preencha todos os campos!");
+            return res.render("user/register", {
+                user: req.body,
+                error: "Preencha todos os campos. Por favor!"
+            })
         }
     }
     //chegar se ja existe um email ou cpf/cnpj já cadastrado
@@ -19,11 +22,17 @@ async function post(req, res, next) {
         or: { cpf_cnpj }
     })
 
-    if (user) return res.send("Usuario já existe!")
+    if (user) return res.render("user/register", {
+        user: req.body,
+        error: "Usuário já cadastrado!"
+    })
 
     // chegar se os dois campos de senha são iguais
     if (password != passwordRepeat) {
-        return res.send("Senhas não são iguais!")
+        return res.render("user/register", {
+            user: req.body,
+            error: "Senhas diferentes!"
+        })
     }
 
     next()
