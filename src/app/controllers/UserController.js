@@ -18,12 +18,14 @@ module.exports = {
     async register(req, res) {
         try {
             
-            const userId = await User.Create(req.body)
+            const userId = await User.Create(req.body);
 
-            return res.redirect('/users')
+            req.session.userId = userId;
+
+            return res.redirect('/users');
 
         } catch (error) {
-            throw new Error(error)
+            throw new Error(error);
         }
     }
 }

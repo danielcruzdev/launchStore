@@ -38,7 +38,7 @@ module.exports = {
           ) VALUES ($1, $2, $3, $4, $5, $6)
           RETURNING id
         `;
-
+        
         const passwordHash = await hash(data.password, 8)
 
         const values = [

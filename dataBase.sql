@@ -35,6 +35,19 @@ CREATE TABLE "users" (
   "created_at" timestamp DEFAULT 'now()',
   "updated_at" timestamp DEFAULT 'now()'
 );
+
+-- Connect Pg simple table
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+	"sess" json NOT NULL,
+	"expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+-- Table connect pg simple table 
+
+
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 -- Foreign KEYS
 
 ALTER TABLE "products" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id")
