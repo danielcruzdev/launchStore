@@ -23,7 +23,7 @@ routes.get("/register", UserController.registerForm)
 routes.post("/register", Validator.post, UserController.register)
 
 routes.get("/", UserController.show)
-// routes.put("/", UserController.update)
+routes.put("/", UserController.update)
 // routes.delete("/", UserController.delete)
 
 

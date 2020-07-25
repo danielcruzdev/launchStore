@@ -24,5 +24,39 @@ module.exports = {
       style: "currency",
       currency: "BRL",
     }).format(price / 100);
+  },
+  formatCpfCnpj(value){
+    value = value.replace(/\D/g, "");
+
+    if(value.length > 11 && value.length <= 14 ){
+      value = value.replace(/(\d{2})(\d)/, "$1.$2"); // 00.000000000100
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // 00.000.000000100
+      value = value.replace(/(\d{3})(\d)/, "$1/$2"); // 00.000.000/000100
+      value = value.replace(/(\d{4})(\d)/, "$1-$2"); // 00.000.000/0001-00
+
+      return value;
+    } else if(value.length <= 11) {
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // 000.00000000
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // 000.000.00000
+      value = value.replace(/(\d{3})(\d)/, "$1-$2"); // 000.000.000-00
+
+      return value
+    }
+    else if (value.length > 14){
+      value = value.slice(0, -1)
+      return value
+    }
+  },
+  formatCep(value){
+    value = value.replace(/\D/g, "");
+
+    if(value.length <= 8 ){
+      value = value.replace(/(\d{5})(\d)/, "$1-$2"); // 00.000-000;
+
+      return value;
+    } else if (value.length > 8){
+      value = value.slice(0, -1)
+      return value
+    }
   }
 };

@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const { formatCep, formatCpfCnpj } = require("../../lib/utils")
 
 module.exports = {
     registerForm(req, res) {
@@ -8,9 +9,20 @@ module.exports = {
             throw new Error(error)
         }
     },
-    show(req, res){
+    async show(req, res){
         try {
-            return res.send('OK! Cadastrado!')
+            
+            const { userId: id} = req.session
+            const user = await User.FindOne({ where: { id }})
+
+            if(!user) return res.render("user/register", {
+                error: "Usuário não encontrado!"
+            })
+
+            user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj)
+            user.cep = formatCep(user.cep)
+
+            return res.render('user/index', { user })
         } catch (error) {
             throw new Error(error)
         }
