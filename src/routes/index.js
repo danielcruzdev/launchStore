@@ -11,4 +11,8 @@ routes.use(home)
 routes.use(search)
 routes.use(product)
 
+routes.get('/accounts', (req, res) => {
+    return res.redirect('/users/login')
+});
+
 module.exports = routes;
