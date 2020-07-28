@@ -2,7 +2,17 @@
 module.exports = {
     loginForm(req, res) {
         try {
-            return res.render("session/index")
+            return res.render("session/login")
+        } catch (error) {
+            throw new Error(error)
+        }
+    },
+    login(req, res){
+        try {
+            req.session.userId = req.user.id
+            
+            return res.redirect("/users")
+
         } catch (error) {
             throw new Error(error)
         }
