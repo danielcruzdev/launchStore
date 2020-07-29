@@ -73,6 +73,8 @@ async function update(req, res, next) {
 
     const user = await User.FindOne({ where: {id} })
     const passed = await compare(password, user.password)
+    console.log(`PASSED? : ${passed} \n Password: ${password} \n User Password: ${user.password}`)
+
 
     if(!passed) return res.render("user/index", {
         user: req.body,

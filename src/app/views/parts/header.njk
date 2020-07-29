@@ -22,7 +22,7 @@
     <nav class="primary">
       <ul>
         <li>
-          <a href="/ads/create">
+          <a href="/products/create">
             <i class="material-icons">add</i>
             Novo anúncio 
           </a>
@@ -32,10 +32,10 @@
             <i class="material-icons">account_circle</i>
             Minha conta
           </a>
-          {% if user %}        
+          {% if session.userId %}        
           <ul class="submenu">
             <li>
-              <a href="/users">Configurações</a>
+              <a href="/users">Detalhes</a>
               <a href="/buying">Meus Pedidos</a>
               <a href="/selling">Minhas Vendas</a>
             </li>

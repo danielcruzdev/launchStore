@@ -19,7 +19,8 @@ module.exports = {
     },
     logout(req, res){
         try {
-            req.session.destroy();
+            req.session.destroy()
+        
             return res.redirect("/")
 
         } catch (error) {

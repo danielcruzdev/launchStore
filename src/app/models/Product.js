@@ -4,7 +4,7 @@ module.exports = {
   create(data) {
     const query = `
           INSERT INTO products (
-            categories_id,
+            category_id,
             user_id,
             name,
             description,
@@ -19,8 +19,8 @@ module.exports = {
     data.price = data.price.replace(/\D/g, "");
 
     const values = [
-        data.categories_id,
-        data.user_id || 1,
+        data.category_id,
+        data.userId || 1,
         data.name,
         data.description,
         data.old_price || data.price,
