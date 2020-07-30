@@ -1,8 +1,7 @@
 const db = require("../../config/db")
 const { hash } = require("bcryptjs")
 const Product = require("./Product")
-const fs = require('fs');
-const { update, delete } = require("../controllers/UserController")
+const fs = require('fs')
 
 module.exports = {
     async FindOne(filters) {
@@ -85,9 +84,9 @@ module.exports = {
             throw new Error(error)
         }
     },
-    async delete(id) {
+    async Delete(id) {
         try {
-            let products = (await Product.all()).rows
+            let products = (await db.query("SELECT * FROM products WHERE user_id = $1", [id]))
 
             const allFilesPromise = products.map(product => 
                 Product.files(product.id)

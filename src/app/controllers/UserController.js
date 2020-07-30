@@ -63,7 +63,7 @@ module.exports = {
     },
     async delete(req, res){
         try {
-            await User.delete(req.body.id)
+            await User.Delete(req.body.id)
 
             req.session.destroy()
 
@@ -73,6 +73,7 @@ module.exports = {
         } catch (error) {
             console.log(error)
             return res.render("user/index", {
+                user: req.body,
                 error: "Erro ao tentar deletar sua conta!"
             })
         }
